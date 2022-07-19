@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+    app:
+        container_name: nextjs-azure-docker
+        image: nextjs-azure-docker
+        build:
+            context: ../
+            dockerfile: docker/Dockerfile
+        env_file: ../.env
+        ports:
+            - 3000:3000
