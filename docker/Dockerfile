@@ -4,7 +4,7 @@
 # Multi stage build
 
 #################################################
-# Fetch npm dependencies
+# Dependency stage - Fetch npm dependencies
 #################################################
 
 # Install dependencies only when needed
@@ -20,7 +20,7 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 #################################################
-# Run "npm run build"
+# Build stage - Run "npm run build"
 #################################################
 
 # Rebuild the source code only when needed
@@ -31,6 +31,11 @@ COPY --from=deps /app/node_modules ./node_modules
 # Next line copies aswell the `.env` file - making environment variables available during 
 # the build stage. Shell environment variables take precedence.
 COPY . .
+
+# Ensure that ".dockignore" file prevents copying all ".env*" files from the directory
+# ensuring correct loading order: https://nextjs.org/docs/basic-features/environment-variables#environment-variable-load-order
+# Expose build time environment variables
+COPY .env.build .env
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
@@ -43,7 +48,7 @@ COPY . .
 RUN npm run build
 
 #################################################
-# Combine everything
+# Output/run stage - Combine everything and run the app
 #################################################
 
 # Production image, copy all the files and run next
