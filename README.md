@@ -24,7 +24,6 @@ Run `npm run dev`, without Docker, and develop as you're used to.
 - run `docker-compose up --build --force-recreate`, building a new image and running the application in a Docker container.
 
 ### About `.env` file
+- The .env file is copied into the Dockerfile in the second build stage. Since this is not the final output stage, we don't have to worry exposing content from the `.env` in the docker image. It's important that this file is not mentioned in the `.dockerignore`
+- Running Docker locally with Docker compose, the `.env` file is used twice. Once in the Dockerfile for build time, as mentioned in above point, and once in the docker-compose.yml for runtime use. 
 
-The `.env` file, which is copied over during the build step in the Dockerfile has not to be ignored in the `.dockerignore` file to use shell environment variables. Shell environment variables take precedence over env files. This is helpful in build pipelines where environment variables are commonly exposed in the shell and not saved in `.env` files.
-
-Source: [Environment Variable Load Order - Next.js](https://nextjs.org/docs/basic-features/environment-variables#environment-variable-load-order)
