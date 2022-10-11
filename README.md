@@ -20,11 +20,6 @@ Run `npm run dev`, without Docker, and develop as you're used to.
 
 ### Running locally with Docker
 
+- Copy `.env.build.example` and past it as `.env.build`. Populate the build time environment variables
 - `cd` into the `docker/` directory
 - run `docker-compose up --build --force-recreate`, building a new image and running the application in a Docker container.
-
-### About `.env` file
-
-The `.env` file, which is copied over during the build step in the Dockerfile has not to be ignored in the `.dockerignore` file to use shell environment variables. Shell environment variables take precedence over env files. This is helpful in build pipelines where environment variables are commonly exposed in the shell and not saved in `.env` files.
-
-Source: [Environment Variable Load Order - Next.js](https://nextjs.org/docs/basic-features/environment-variables#environment-variable-load-order)
